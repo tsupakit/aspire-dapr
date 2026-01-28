@@ -21,6 +21,9 @@ builder.Services.AddAuthorization(options =>
     options.AddDapr();
 });
 
+builder.Services.AddEndpointsApiExplorer(); 
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 app.UseRouting();
