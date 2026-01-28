@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\AspireWithDapr.Web.props" />
-</Project>
