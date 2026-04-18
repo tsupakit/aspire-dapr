@@ -1,4 +1,4 @@
-using Aspire.Hosting.Dapr;
+using CommunityToolkit.Aspire.Hosting.Dapr;
 using k8s.Models;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -19,19 +19,23 @@ var secretStore = builder.AddDaprComponent("secretstore", "secretstores.local.fi
 
 var serviceA = builder.AddProject<Projects.AspireWithDapr_ServiceA>("service-a", launchProfileName)
     .WithDaprSidecar(options =>
-        options.WithAnnotation(new EnvironmentCallbackAnnotation("APP_API_TOKEN", () => "secret-dapr-api-token"), ResourceAnnotationMutationBehavior.Append))
-    .WithReference(stateStore)
-    .WithReference(pubSub)
-    .WithReference(secretStore)
+    {
+        options.WithAnnotation(new EnvironmentCallbackAnnotation("APP_API_TOKEN", () => "secret-dapr-api-token"), ResourceAnnotationMutationBehavior.Append);
+        options.WithReference(stateStore);
+        options.WithReference(pubSub);
+        options.WithReference(secretStore);
+    })
     .WithEnvironment("APP_API_TOKEN", "secret-dapr-api-token");
 
 
 var serviceB = builder.AddProject<Projects.AspireWithDapr_ServiceB>("service-b", launchProfileName)
     .WithDaprSidecar(options =>
-        options.WithAnnotation(new EnvironmentCallbackAnnotation("APP_API_TOKEN", () => "secret-dapr-api-token"), ResourceAnnotationMutationBehavior.Append))
-    .WithReference(stateStore)
-    .WithReference(pubSub)
-    .WithReference(secretStore)
+    {
+        options.WithAnnotation(new EnvironmentCallbackAnnotation("APP_API_TOKEN", () => "secret-dapr-api-token"), ResourceAnnotationMutationBehavior.Append);
+        options.WithReference(stateStore);
+        options.WithReference(pubSub);
+        options.WithReference(secretStore);
+    })
     .WithEnvironment("APP_API_TOKEN", "secret-dapr-api-token");
 
 
