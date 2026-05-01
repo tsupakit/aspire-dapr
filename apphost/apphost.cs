@@ -1,5 +1,6 @@
 #:sdk Aspire.AppHost.Sdk@13.2.2
 #:package CommunityToolkit.Aspire.Hosting.Dapr@*
+#:package Aspire.Hosting.Python@*
 
 using CommunityToolkit.Aspire.Hosting.Dapr;
 
@@ -63,6 +64,28 @@ builder //.AddProject<Projects.AspireWithDapr_WebUI>("webfrontend")
        .WithEnvironment("APP_API_TOKEN", "secret-dapr-api-token");
 #pragma warning restore ASPIRECSHARPAPPS001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
+// var python = builder.AddPythonApp(
+//     name: "python-app1",
+//     appDirectory: "../python/python-app1",
+//     scriptPath: "main.py")
+//     .WithUv();
+    //.WithHttpEndpoint(port: 8000, env: "PORT");
+
+var python = builder.AddPythonApp(
+    name: "python-app1",
+    appDirectory: "../python/python-app1",
+    scriptPath: "main.py")
+    .WithUv();
+
+var python2 = builder.AddUvicornApp(
+    name: "python-app2",
+    appDirectory: "../python/python-app2",
+    app: "main:app")
+    //.WithHttpEndpoint(port: 8000, env: "PORT")
+    .WithUv();
+
+// builder.AddProject("python", "../python/python-app1")
+//        .WithReference(python);
 
 builder.Build().Run();
 
